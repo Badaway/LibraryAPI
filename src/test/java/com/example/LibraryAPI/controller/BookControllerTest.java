@@ -9,9 +9,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class MemberControllerTest {
+class BookControllerTest {
 
     @LocalServerPort
     private int port;
@@ -45,66 +44,61 @@ class MemberControllerTest {
 
     }
 
-
     @Test
-    void getAllMembers() throws Exception {
+    void getAllBooks() throws Exception {
         String token=getToken();
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
                 .when()
-                .get("/api/member/members}")
+                .get("/api/book/books}")
                 .then()
                 .statusCode(200);
     }
 
     @Test
-    void getMember() throws Exception {
+    void getBook() throws Exception {
         String token=getToken();
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
                 .when()
-                .get("/api/member/3}")
+                .get("/api/book/1}")
                 .then()
                 .statusCode(200);
+
     }
 
     @Test
-    void updateMember() throws Exception {
+    void updateBook() throws Exception {
         String token=getToken();
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
                 .body("""
-                        {
-                            "name":"Hatem"
-                        
-                        }
+                        "title":"SQL in 2 days"
                         """)
                 .when()
-                .put("/api/member/3}")
+                .put("/api/book/1}")
                 .then()
                 .statusCode(200);
     }
 
     @Test
-    void createMember() throws Exception {
+    void createBook() throws Exception {
         String token=getToken();
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
                 .body("""
-                        {
-                            "name":"sami",
-                            "email":"sami@gts.co"
-                        
-                        }
+                        "title":"Nothing part 21",
+                          "isbn":"4325834925432093",
+                          "authorId":"1"
                         """)
                 .when()
-                .post("/api/member/3}")
+                .put("/api/book/1}")
                 .then()
                 .statusCode(200);
     }
 
     @Test
-    void deleteMember() throws Exception {
+    void deleteBook() throws Exception {
         String token=getToken();
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
                 .when()
-                .delete("/api/member/3}")
+                .delete("/api/book/1}")
                 .then()
                 .statusCode(200);
     }

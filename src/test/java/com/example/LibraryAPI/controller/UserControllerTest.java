@@ -28,7 +28,7 @@ class UserControllerTest {
 
     public String getToken() throws Exception {
 
-        Response response =given().contentType(ContentType.JSON)
+        var token =given().contentType(ContentType.JSON)
                 .body("""
               {
                 "email": "admin.admin@email.com",
@@ -40,17 +40,17 @@ class UserControllerTest {
                 .post("/api/auth/login")
                 .then()
                 .contentType(ContentType.JSON)
-                .extract()
-                .response();
-        var body = response.body().toString();
-        JSONObject respJson = new JSONObject(body.substring(body.indexOf("{")+1, body.lastIndexOf("}") + 1));
+                .extract().
+                path("token");
 
-        return respJson.getString("token");
+
+        return token.toString();
 
     }
 
     @Test
     void currentUser() throws Exception {
+        String token=getToken();
         given().header("Authorization","Bearer "+getToken()).contentType(ContentType.JSON)
                 .body("""
               {
@@ -66,19 +66,50 @@ class UserControllerTest {
 
 
     @Test
-    void getAllUsers() {
+    void getAllUsers()throws Exception {
+        String token=getToken();
+        given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
+                .when()
+                .get("/api/user/users}")
+                .then()
+                .statusCode(200);
     }
 
     @Test
-    void getUser() {
+    void getUser() throws Exception {
+        String token=getToken();
+        given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
+                .when()
+                .get("/api/user/806}")
+                .then()
+                .statusCode(200);
     }
 
     @Test
-    void updateUser() {
+    void updateUser() throws Exception {
+        String token=getToken();
+        given().header("Authorization","Bearer "+getToken()).contentType(ContentType.JSON)
+                .body("""
+              {
+               "name":"ahmed"
+              }
+          """
+                )
+                .when()
+                .put("/api/user/me")
+                .then()
+                .statusCode(200);
+
     }
 
     @Test
-    void deleteUser() {
+    void deleteUser() throws Exception {
+        String token=getToken();
+        given().header("Authorization","Bearer "+getToken()).contentType(ContentType.JSON)
+              .when()
+                .delete("/api/user/me")
+                .then()
+                .statusCode(200);
     }
 
 
