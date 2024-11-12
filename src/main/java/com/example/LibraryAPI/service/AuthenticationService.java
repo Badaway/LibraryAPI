@@ -4,6 +4,7 @@ import com.example.LibraryAPI.Dto.LoginUserDto;
 import com.example.LibraryAPI.Dto.RegisterUserDto;
 import com.example.LibraryAPI.Dto.UserResponseDto;
 import com.example.LibraryAPI.enums.RoleEnum;
+import com.example.LibraryAPI.exceptions.ExceptionMessage;
 import com.example.LibraryAPI.mapping.Mapper;
 import com.example.LibraryAPI.model.Role;
 import com.example.LibraryAPI.model.User;
@@ -41,12 +42,12 @@ public class AuthenticationService {
 
 
 
-    public UserResponseDto signup(RegisterUserDto input,RoleEnum role) {
+    public User signup(RegisterUserDto input,RoleEnum role) {
 
         Optional<Role> optionalRole = roleRepository.findByName(role);
 
         if (optionalRole.isEmpty()) {
-            throw  new NoSuchElementException("Role: "+RoleEnum.ROLE_USER+" not found");
+            throw  new NoSuchElementException(ExceptionMessage.roleNotFound +role.name());
         }
 
         Set<Role> roleSet = new HashSet<>();
@@ -58,9 +59,9 @@ public class AuthenticationService {
                 .setPassword(passwordEncoder.encode(input.getPassword()))
                 .setRoles(roleSet);
 
-        userRepository.save(user);
+        return userRepository.save(user);
 
-        return mapper.map(user, UserResponseDto.class);
+//        return mapper.map(user, UserResponseDto.class);
     }
 
 

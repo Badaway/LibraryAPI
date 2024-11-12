@@ -7,7 +7,6 @@ import lombok.experimental.Accessors;
 
 @Getter
 @Setter
-@Data
 @Accessors(chain = true)
 public class BookResponseDto {
 

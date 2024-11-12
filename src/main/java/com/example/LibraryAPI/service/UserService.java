@@ -11,10 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.LibraryAPI.exceptions.ExceptionMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import static com.example.LibraryAPI.exceptions.ExceptionMessage.userNotFoundByEmail;
+import static com.example.LibraryAPI.exceptions.ExceptionMessage.userNotFoundById;
 
 @Service
 public class UserService {
@@ -30,28 +35,20 @@ public class UserService {
 
 
 
-    public UserResponseDto getUser(UUID id){
+    public User getUser(UUID id){
 
 
-        var user= userRepository.findById(id)
-                    .orElseThrow(() -> new NoSuchElementException("User not found with id " + id));
+        return userRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException(userNotFoundById + id));
 
-        return  mapper.map(user,UserResponseDto.class);
+
     }
 
-    public List<UserResponseDto> getAllUsers(){
+    public List<User> getAllUsers(){
 
-        var users=userRepository.findAll();
+        return userRepository.findAll();
 
-        var usersResponse =new ArrayList<UserResponseDto>();
 
-        for (User user:users)
-        {
-            var userResponseDto =mapper.map(user, UserResponseDto.class);
-            usersResponse.add(userResponseDto);
-        }
-
-        return  usersResponse;
     }
     
 
@@ -63,14 +60,14 @@ public class UserService {
 
         }
 
-        throw  new NoSuchElementException("User with id: "+id+" does not exist");
+        throw  new NoSuchElementException(userNotFoundById+id);
     }
     
     
-    public UserResponseDto updateUser(UpdateUserDto user, UUID id){
+    public User updateUser(UpdateUserDto user, UUID id){
 
         var returnedUser= userRepository.findById(id)
-                            .orElseThrow(() -> new NoSuchElementException("User not found with id " + id));
+                            .orElseThrow(() -> new NoSuchElementException(userNotFoundById + id));
 
 
         if(user.getName()!=null && !user.getName().isEmpty()){
@@ -82,17 +79,17 @@ public class UserService {
         }
 
 
-        var savedUser =userRepository.save(returnedUser);
+        return userRepository.save(returnedUser);
 
-        return mapper.map(savedUser, UserResponseDto.class);
+       // return mapper.map(savedUser, UserResponseDto.class);
     }
 
-    public UserResponseDto getUser(String email){
+    public User getUser(String email){
 
 
-        var user= userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User not found with email " + email));
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException(userNotFoundByEmail + email));
 
-        return  mapper.map(user,UserResponseDto.class);
+//        return  mapper.map(user,UserResponseDto.class);
     }
 }

@@ -2,6 +2,7 @@ package com.example.LibraryAPI.service;
 
 import com.example.LibraryAPI.Dto.BookDto;
 import com.example.LibraryAPI.Dto.BookResponseDto;
+import com.example.LibraryAPI.exceptions.ExceptionMessage;
 import com.example.LibraryAPI.mapping.Mapper;
 import com.example.LibraryAPI.model.Book;
 import com.example.LibraryAPI.repository.AuthorRepository;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import static com.example.LibraryAPI.exceptions.ExceptionMessage.*;
+
 @Service
 public class BookService {
     @Autowired
@@ -27,58 +30,51 @@ public class BookService {
     private AuthorRepository authorRepository;
 
 
-    public BookResponseDto getBook(UUID id){
+    public Book getBook(UUID id){
 
-        var book =bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Book not found with id " + id));
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Book not found with id " + id));
 
 
-        return mapper.map(book,BookResponseDto.class);
+        //return mapper.map(book,BookResponseDto.class);
     }
 
-    public List<BookResponseDto> getAllBooks(){
+    public List<Book> getAllBooks(){
 
-        var books=bookRepository.findAll();
+        return bookRepository.findAll();
 
-        var booksResponse =new ArrayList<BookResponseDto>();
 
-        for (Book book:books)
-        {
-            var bookResponseDto =mapper.map(book, BookResponseDto.class);
-            booksResponse.add(bookResponseDto);
-        }
-
-        return  booksResponse;
     }
 
-    public BookResponseDto CreateBook(BookDto bookDto) {
+    public Book CreateBook(BookDto bookDto) {
 
         var authorId=bookDto.getAuthorId();
-        var author = authorRepository.findById(authorId).orElseThrow(() -> new NoSuchElementException("Author not found with id " + authorId));
+        var author = authorRepository.findById(authorId).orElseThrow(() -> new NoSuchElementException(ExceptionMessage.authorNotFoundById + authorId));
 
         var book = new Book()
                 .setTitle(bookDto.getTitle())
                 .setIsbn(bookDto.getIsbn())
                 .setAuthor(author);
 
-          bookRepository.save(book);
+        return   bookRepository.save(book);
           
-          return mapper.map(book, BookResponseDto.class);
+          //return mapper.map(book, BookResponseDto.class);
 
     }
 
     public void deleteBook(UUID id){
 
         
-            var book = bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Book not found with id " + id));
+            var book = bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException(bookNotFoundById + id));
             book.setAuthor(null);
             book.setMember(null);
             bookRepository.save(book);
             bookRepository.deleteById(id);
             
     }
-    public BookResponseDto updateBook(BookDto book,UUID id){
+    public Book updateBook(BookDto book,UUID id){
 
-        var returnedBook= bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Book not found with id " + id));
+        var returnedBook= bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException(bookNotFoundById + id));
 
         if(book.getTitle()!=null && !book.getTitle().isEmpty()){
             returnedBook.setTitle(book.getTitle());
@@ -88,50 +84,50 @@ public class BookService {
             returnedBook.setIsbn(book.getIsbn());
         }
 
-        var savedBook =bookRepository.save(returnedBook);
+        return bookRepository.save(returnedBook);
 
-        return mapper.map(savedBook, BookResponseDto.class);
+       // return mapper.map(savedBook, BookResponseDto.class);
 
     }
-    public BookResponseDto borrowBook(UUID memberId,UUID  bookId){
+    public Book borrowBook(UUID memberId,UUID  bookId){
 
 
-        var member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("Member not found with id " + memberId));
+        var member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(memberNotFoundById+ memberId));
 
-        var book = bookRepository.findById(bookId).orElseThrow(() -> new NoSuchElementException("Book not found with id " + bookId));
+        var book = bookRepository.findById(bookId).orElseThrow(() -> new NoSuchElementException(bookNotFoundById + bookId));
 
         if(book.getMember()!=null){
-            throw  new RuntimeException("There is already member borrowed that book");
+            throw  new RuntimeException(bookCanNotBorrowed);
         }
 
         book.setMember(member);
 
-        bookRepository.save(book);
+       return bookRepository.save(book);
 
 
-       return mapper.map(book,BookResponseDto.class);
+      // return mapper.map(book,BookResponseDto.class);
 
 
 
     }
 
-    public BookResponseDto checkOutBook(UUID memberId, UUID bookId) {
+    public Book checkOutBook(UUID memberId, UUID bookId) {
 
-        var member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("Member not found with id " + memberId));
+        var member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException(memberNotFoundById + memberId));
 
-        var book = bookRepository.findById(bookId).orElseThrow(() -> new NoSuchElementException("Book not found with id " + bookId));
+        var book = bookRepository.findById(bookId).orElseThrow(() -> new NoSuchElementException(bookNotFoundById + bookId));
 
         book.setMember(member);
 
-        bookRepository.save(book);
+        return bookRepository.save(book);
 
-        return mapper.map(book,BookResponseDto.class);
+       // return mapper.map(book,BookResponseDto.class);
     }
-    public BookResponseDto getBook(String title){
+    public Book getBook(String title){
 
-        var book =bookRepository.findByTitle(title).orElseThrow(() -> new NoSuchElementException("Book not found with name " + title));
+        return  bookRepository.findByTitle(title).orElseThrow(() -> new NoSuchElementException(bookNotFoundByTitle + title));
 
 
-        return mapper.map(book,BookResponseDto.class);
+        //return mapper.map(book,BookResponseDto.class);
     }
 }

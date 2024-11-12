@@ -46,7 +46,7 @@ class AuthorControllerTest {
 
     @Test
     void getAllAuthors() throws Exception {
-        var email="sam@gts.com";
+        var email="admin@gts.co";
         var password="123";
         String token=getToken(email,password);
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
@@ -59,7 +59,7 @@ class AuthorControllerTest {
 
     @Test
     void getAuthor() throws Exception {
-        var email="sam@gts.com";
+        var email="admin@gts.co";
         var password="123";
         int authorId=6;
         String token=getToken(email,password);
@@ -72,7 +72,7 @@ class AuthorControllerTest {
 
     @Test
     void updateAuthor() throws Exception {
-        var email="sam@gts.com";
+        var email="admin@gts.co";
         var password="123";
         int authorId=6;
         String token=getToken(email,password);
@@ -93,7 +93,7 @@ class AuthorControllerTest {
 
     @Test
     void createAuthor() throws Exception {
-        var email="sam@gts.com";
+        var email="admin@gts.co";
         var password="123";
         String token=getToken(email,password);
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
@@ -114,7 +114,7 @@ class AuthorControllerTest {
 
     @Test
     void deleteAuthor() throws Exception {
-        var email="sam@gts.com";
+        var email="admin@gts.co";
         var password="123";
         int authorId=9;
         String token=getToken(email,password);
@@ -122,6 +122,6 @@ class AuthorControllerTest {
                 .when()
                 .delete("/api/author/{authorId}",authorId)
                 .then()
-                .statusCode(200);
+                .statusCode(204);
     }
 }

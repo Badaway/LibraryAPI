@@ -13,7 +13,6 @@ import java.util.*;
 
 @Getter
 @Setter
-@Data
 @Accessors(chain = true)
 @Entity
 @Table(name = "users")

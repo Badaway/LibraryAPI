@@ -7,10 +7,12 @@ import com.example.LibraryAPI.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import static com.example.LibraryAPI.exceptions.ExceptionMessage.authorNotFoundById;
+import static com.example.LibraryAPI.exceptions.ExceptionMessage.authorNotFoundByName;
 
 @Service
 public class AuthorService {
@@ -21,38 +23,30 @@ public class AuthorService {
     @Autowired
     private Mapper mapper;
 
-    public AuthorDto getAuthor(UUID id){
+    public Author getAuthor(UUID id){
 
-        var author =authorRepository.findById(id)
-                        .orElseThrow(() -> new NoSuchElementException("Author not found with id " + id));
+        return authorRepository.findById(id)
+                        .orElseThrow(() -> new NoSuchElementException(authorNotFoundById + id));
 
-        return mapper.map(author, AuthorDto.class);
+//        return mapper.map(author, AuthorDto.class);
     }
 
-    public List<AuthorDto> getAllAuthors(){
+    public List<Author> getAllAuthors(){
 
-        var authors=authorRepository.findAll();
+        return authorRepository.findAll();
 
-        var authorsResponse =new ArrayList<AuthorDto>();
 
-        for (Author author:authors)
-        {
-            var authorResponseDto =mapper.map(author, AuthorDto.class);
-            authorsResponse.add(authorResponseDto);
-        }
-
-        return  authorsResponse;
 
 
     }
 
-    public AuthorDto CreateAuthor(AuthorDto author){
+    public Author createAuthor(AuthorDto author){
 
         var authorToSave = mapper.map(author,Author.class);
 
-        authorRepository.save(authorToSave);
+       return authorRepository.save(authorToSave);
 
-        return  mapper.map(author, AuthorDto.class);
+//        return  mapper.map(author, AuthorDto.class);
     }
 
     public void deleteAuthor(UUID id){
@@ -63,9 +57,9 @@ public class AuthorService {
 
         }
 
-        throw  new NoSuchElementException("Author with id: "+id+" not found");
+        throw  new NoSuchElementException(authorNotFoundById+id);
     }
-    public AuthorDto updateAuthor(AuthorDto author, UUID id){
+    public Author updateAuthor(AuthorDto author, UUID id){
 
         var returnedAuthor= authorRepository.findById(id).orElseThrow();
 
@@ -82,16 +76,16 @@ public class AuthorService {
         }
 
 
-        var savedAuthor =authorRepository.save(returnedAuthor);
+        return authorRepository.save(returnedAuthor);
 
-        return mapper.map(savedAuthor, AuthorDto.class);
+//        return mapper.map(savedAuthor, AuthorDto.class);
     }
 
-    public AuthorDto getAuthor(String name){
+    public Author getAuthor(String name){
 
-        var author =authorRepository.findByName(name)
-                .orElseThrow(() -> new NoSuchElementException("Author not found with name " + name));
+        return authorRepository.findByName(name)
+                .orElseThrow(() -> new NoSuchElementException(authorNotFoundByName+ name));
 
-        return mapper.map(author, AuthorDto.class);
+//        return mapper.map(author, AuthorDto.class);
     }
 }
