@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -15,6 +17,7 @@ public class BookResponseDto {
     private  Long isbn;
     private String author;
     private String member;
+    private UUID id;
 
 
 }

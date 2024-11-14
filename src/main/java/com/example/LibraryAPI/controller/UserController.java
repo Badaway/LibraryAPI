@@ -32,7 +32,7 @@ public class UserController {
     public static final String baseControllerUri = "/user";
 
     public static final String currentUserUri = "/me";
-    public static final String getAllUsersUri = "/users";
+    public static final String getAllUsersUri = "/";
     public static final String getUserByIdUri = "/id/{userId}";
     public static final String updateUserUri = "/me";
     public static final String deleteUserUri = "/me";

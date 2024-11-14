@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,30 +20,5 @@ public class MemberResponseDto {
 
     private Date membershipDate;
 
-    public String getName() {
-        return name;
-    }
-
-    public MemberResponseDto setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public MemberResponseDto setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public Date getMembershipDate() {
-        return membershipDate;
-    }
-
-    public MemberResponseDto setMembershipDate(Date membershipDate) {
-        this.membershipDate = membershipDate;
-        return this;
-    }
+    private UUID id;
 }

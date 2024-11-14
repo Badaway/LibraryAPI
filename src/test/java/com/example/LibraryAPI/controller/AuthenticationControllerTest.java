@@ -1,12 +1,17 @@
 package com.example.LibraryAPI.controller;
 
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import com.example.LibraryAPI.Dto.*;
 
+
+import static common.Common.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -18,45 +23,44 @@ class AuthenticationControllerTest {
     @LocalServerPort
     private int port;
 
+
+
+
+
     @BeforeEach
     public void setUp() throws Exception {
         RestAssured.port = port;
     }
     @Test
-    void register() {
-        var username="Kareem";
-        var password="123";
-        var email="kare@gts.co";
+    void testRegisterUser_whenUserIsGiven_expectedUserRegistered() {
+
+        var userRegister= new RegisterUserDto()
+                .setEmail(getRandomString()+defaultEmail)//"ahsgfckslaj"
+                .setName(getRandomString())
+                .setPassword(defaultPassword);
+
         given().contentType(ContentType.JSON)
-                .body("""
-              {
-                "email": "tamer_07@gts.com",
-                "name":"Karem",
-                "password": "123"
-              }
-          """
-                )
+                .body(userRegister)
                 .when()
-                .post("/api/auth/signup")
+                .post(baseUri +AuthenticationController.baseControllerUri+AuthenticationController.registerUri)
                 .then()
                 .statusCode(201)
-                .body("name", equalTo("Karem"));
+                .body("name", equalTo(userRegister.getName()));
 
     }
 
 
     @Test
-    void authenticate() {
+    void testAuthenticate_WhenUserLoginIsGiven_ExpectedTokenReturned() {
+
+        var userLogin= new LoginUserDto()
+                .setEmail(userEmail)
+                .setPassword(userPassword);
+
         given().contentType(ContentType.JSON)
-                .body("""
-              {
-                "email": "admin.admin@email.com",
-                "password": "123456"
-              }
-          """
-                )
+                .body(userLogin)
                 .when()
-                .post("/api/auth/login")
+                .post(baseUri +AuthenticationController.baseControllerUri+AuthenticationController.loginUri)
                 .then()
                 .statusCode(200)
                 .body("token", notNullValue())

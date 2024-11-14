@@ -60,7 +60,9 @@ public class UserService {
 
         }
 
-        throw  new NoSuchElementException(userNotFoundById+id);
+        else {
+            throw new NoSuchElementException(userNotFoundById + id);
+        }
     }
     
     

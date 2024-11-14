@@ -15,16 +15,18 @@ import java.util.UUID;
 @Accessors(chain = true)
 public class BookDto {
 
-    @NotEmpty
+
     private String title;
 
-    @NotEmpty
+
     private  Long isbn;
-    @NotEmpty
+
     private UUID authorId;
 
     private UUID memberId;
     private Date borrowDate;
+
+    private UUID id;
 
 
 }

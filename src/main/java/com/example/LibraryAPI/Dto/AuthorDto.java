@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Data
@@ -21,6 +23,8 @@ public class AuthorDto {
 
     @NotEmpty
     private String biography;
+
+    private UUID id;
 
 
 }

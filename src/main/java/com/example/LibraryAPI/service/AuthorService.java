@@ -57,7 +57,9 @@ public class AuthorService {
 
         }
 
+        else {
         throw  new NoSuchElementException(authorNotFoundById+id);
+        }
     }
     public Author updateAuthor(AuthorDto author, UUID id){
 

@@ -13,5 +13,9 @@ public class ExceptionMessage {
     public   static final String memberNotFoundByEmail="Member not found with email " ;
     public   static final String userNotFoundById="User not found with id ";
     public   static final String userNotFoundByEmail="User not found with email ";
+    public   static final String bookExist="Book still exist";
+    public   static final String authorExist="Author still exist";
+    public   static final String memberExist="Member still exist";
+    public   static final String userExist="User still exist";
 
 }

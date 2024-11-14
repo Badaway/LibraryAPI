@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,6 +18,7 @@ public class UserResponseDto {
     private  String email;
     private  Date createdAt;
     private  Date updatedAt;
+    private UUID id;
 
 
 }

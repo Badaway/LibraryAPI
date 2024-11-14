@@ -23,8 +23,8 @@ public class BookController {
 
     public static final String baseControllerUri = "/book";
 
-    public static final String getAllBooksUri = "/books";
-    public static final String getBookByIdUri = "id/{bookId}";
+    public static final String getAllBooksUri = "/";
+    public static final String getBookByIdUri = "/id/{bookId}";
     public static final String updateBookUri = "/{bookId}";
     public static final String createBookUri = "/";
     public static final String deleteBookUri = "/{bookId}";

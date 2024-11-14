@@ -1,13 +1,25 @@
 package com.example.LibraryAPI.controller;
 
+import com.example.LibraryAPI.Dto.AuthorDto;
+
+import com.example.LibraryAPI.repository.AuthorRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.util.Assert;
 
+import java.util.UUID;
+
+
+import static com.example.LibraryAPI.exceptions.ExceptionMessage.authorExist;
+import static common.Common.*;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -16,6 +28,15 @@ class AuthorControllerTest {
     @LocalServerPort
     private int port;
 
+    @Autowired
+    private AuthorRepository authorRepository;
+    
+    
+    
+
+
+    @Value("")
+
     @BeforeEach
     public void setUp() throws Exception {
         RestAssured.port = port;
@@ -23,105 +44,89 @@ class AuthorControllerTest {
     }
 
 
-    public String getToken(String email,String password) throws Exception {
 
 
 
-        String requestBody= "{\"email\":\""+email+"\",\"password\":\""+password+"\"}";
 
+    @Test
+    void testGetAllAuthors_ExpectedAuthorsReturned() throws Exception {
+        String token= getToken(userEmail, userPassword);
 
-        var token =given().contentType(ContentType.JSON)
-                .body(requestBody)
+        var size =authorRepository.findAll().size();
+
+        given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
                 .when()
-                .post("/api/auth/login")
+                .get(baseUri+AuthorController.baseControllerUri+AuthorController.getAllAuthorsUri)
                 .then()
-                .contentType(ContentType.JSON)
-                .extract().
-                path("token");
-
-
-        return token.toString();
+                .statusCode(200)
+                .body("size()",equalTo(size));
 
     }
 
     @Test
-    void getAllAuthors() throws Exception {
-        var email="admin@gts.co";
-        var password="123";
-        String token=getToken(email,password);
+    void testGetAuthor_whenIdIsGiven_expectedAuthorReturned() throws Exception {
+        var authors=authorRepository.findAll();
+        UUID authorId= authors.get(0).getId();
+        var author=authorRepository.findById(authorId).orElseThrow();
+
+        String token= getToken(userEmail, userPassword);
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
                 .when()
-                .get("/api/author/authors")
+                .get( baseUri+AuthorController.baseControllerUri+AuthorController.getAuthorByIdUri,authorId)
                 .then()
-                .statusCode(200);
-
+                .statusCode(200)
+                .body("name",equalTo(author.getName()));
     }
 
     @Test
-    void getAuthor() throws Exception {
-        var email="admin@gts.co";
-        var password="123";
-        int authorId=6;
-        String token=getToken(email,password);
-        given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
-                .when()
-                .get("/api/author/{authorId}",authorId)
-                .then()
-                .statusCode(200);
-    }
+    void testUpdateAuthor_whenIdIsGiven_expectedAuthorUpdated() throws Exception {
+        var authors=authorRepository.findAll();
+        UUID authorId= authors.get(0).getId();
+        String token= getToken(userEmail, userPassword);
+        var updateAuthor=new AuthorDto().setName(getRandomString());
 
-    @Test
-    void updateAuthor() throws Exception {
-        var email="admin@gts.co";
-        var password="123";
-        int authorId=6;
-        String token=getToken(email,password);
+
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
-                .body("""
-                        {
-                            "name":"Aly"
-                        
-                        }
-                        """)
+                .body(updateAuthor)
                 .when()
-                .put("/api/author/{authorId}",authorId)
+                .put(baseUri+AuthorController.baseControllerUri+AuthorController.updateAuthorUri,authorId)
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .body("name",equalTo(updateAuthor.getName()));
+
 
     }
 
 
     @Test
-    void createAuthor() throws Exception {
-        var email="admin@gts.co";
-        var password="123";
-        String token=getToken(email,password);
+    void testCreateAuthor_whenAuthorIsGiven_expectedAuthorCreated() throws Exception {
+        String token= getToken(userEmail, userPassword);
+        var createAuthor= new AuthorDto()
+                .setName(getRandomString())
+                .setDob(getRandomString())
+                .setBiography(getRandomString());
+
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
-                .body("""
-                        {
-                            "name":"Rabah Mohamed",
-                                "dob":"l2",
-                                "biography":"To French"
-                        
-                        }
-                        """)
+                .body(createAuthor)
                 .when()
-                .post("/api/author/")
+                .post(baseUri+AuthorController.baseControllerUri+AuthorController.createAuthorUri)
                 .then()
-                .statusCode(201);
+                .statusCode(201)
+                .body("name",equalTo(createAuthor.getName()));
 
     }
 
     @Test
-    void deleteAuthor() throws Exception {
-        var email="admin@gts.co";
-        var password="123";
-        int authorId=9;
-        String token=getToken(email,password);
+    void testDeleteAuthor_whenIdIsGiven_expectedAuthorDeleted() throws Exception {
+        var authors=authorRepository.findAllAuthorWithNoBook();
+        UUID authorId= authors.get(authors.size()-1).getId();
+        String token= getToken(userEmail, userPassword);
         given().header("Authorization","Bearer "+token).contentType(ContentType.JSON)
                 .when()
-                .delete("/api/author/{authorId}",authorId)
+                .delete(baseUri+AuthorController.baseControllerUri+AuthorController.deleteAuthorUri,authorId)
                 .then()
                 .statusCode(204);
+        boolean checkIfExist=!authorRepository.existsById(authorId);
+        Assert.isTrue(checkIfExist,authorExist);
     }
 }

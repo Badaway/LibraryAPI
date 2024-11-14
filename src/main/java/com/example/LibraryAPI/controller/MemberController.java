@@ -27,8 +27,8 @@ public class MemberController {
 
     public static final String baseControllerUri = "/member";
 
-    public static final String getAllMembersUri = "/members";
-    public static final String getMemberByIdUri = "id/{memberId}";
+    public static final String getAllMembersUri = "/";
+    public static final String getMemberByIdUri = "/id/{memberId}";
     public static final String updateMemberUri = "/{memberId}";
     public static final String createMemberUri = "/";
     public static final String deleteMemberUri = "/{memberId}";

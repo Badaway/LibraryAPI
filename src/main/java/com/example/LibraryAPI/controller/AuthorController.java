@@ -21,7 +21,7 @@ public class AuthorController {
 
     public static final String baseControllerUri = "/author";
 
-    public static final String getAllAuthorsUri = "/authors";
+    public static final String getAllAuthorsUri = "/";
     public static final String getAuthorByIdUri = "/id/{authorId}";
     public static final String updateAuthorUri = "/{authorId}";
     public static final String createAuthorUri = "/";

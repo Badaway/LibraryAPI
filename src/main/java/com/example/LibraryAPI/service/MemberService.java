@@ -61,7 +61,9 @@ public class MemberService {
 
         }
 
-        throw new NoSuchElementException(memberNotFoundById+id);
+        else {
+            throw new NoSuchElementException(memberNotFoundById + id);
+        }
     }
     public Member updateMember(UpdateMemberDto member, UUID id){
 
