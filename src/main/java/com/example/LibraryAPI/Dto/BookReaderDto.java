@@ -1,34 +1,29 @@
 package com.example.LibraryAPI.Dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Getter
 @Setter
-@Data
-@Accessors(chain = true)
 @ToString
-public class BookDto {
+@Accessors(chain = true)
+public class BookReaderDto {
 
 
     private String title;
 
 
-    private  Long isbn;
+    private String memberName;
 
-    private UUID authorId;
-
-    private UUID memberId;
     private Date borrowDate;
 
-    private UUID id;
+    private  String memberEmail;
 
+    private  long isbn;
 
 }

@@ -4,6 +4,7 @@ package com.example.LibraryAPI.service;
 import com.example.LibraryAPI.Dto.UpdateUserDto;
 import com.example.LibraryAPI.Dto.UserResponseDto;
 import com.example.LibraryAPI.mapping.Mapper;
+import com.example.LibraryAPI.model.AuditLog;
 import com.example.LibraryAPI.model.User;
 import com.example.LibraryAPI.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -33,6 +34,9 @@ public class UserService {
     @Autowired
     private Mapper mapper;
 
+    @Autowired
+    private AuditService auditService;
+
 
 
     public User getUser(UUID id){
@@ -54,15 +58,16 @@ public class UserService {
 
     public void deleteUser(UUID id){
 
-        if(userRepository.existsById(id)) {
+       var userToDelete= userRepository.findById(id).orElseThrow();
 
-            userRepository.deleteById(id);
+        var log= new AuditLog()
+                .setAction("Delete")
+                .setEntityId(userToDelete.getId().toString())
+                .setEntity(userToDelete.getClass().getSimpleName())
+                .setOldValue(userToDelete.toString());
+        auditService.createLog(log);
 
-        }
-
-        else {
-            throw new NoSuchElementException(userNotFoundById + id);
-        }
+       userRepository.deleteById(id);
     }
     
     
@@ -71,6 +76,14 @@ public class UserService {
         var returnedUser= userRepository.findById(id)
                             .orElseThrow(() -> new NoSuchElementException(userNotFoundById + id));
 
+
+        var log = new AuditLog()
+                .setEntityId(returnedUser.getId().toString())
+                .setOldValue(returnedUser.toString())
+                .setAction("Update")
+                .setEntity(returnedUser.getClass().getSimpleName())
+                .setNewValue(user.toString());
+        auditService.createLog(log);
 
         if(user.getName()!=null && !user.getName().isEmpty()){
             returnedUser.setName(user.getName());

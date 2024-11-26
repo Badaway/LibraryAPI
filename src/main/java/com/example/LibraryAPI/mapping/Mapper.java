@@ -1,6 +1,7 @@
 package com.example.LibraryAPI.mapping;
 
 import com.example.LibraryAPI.Dto.BookDto;
+import com.example.LibraryAPI.Dto.BookReaderDto;
 import com.example.LibraryAPI.Dto.BookResponseDto;
 import com.example.LibraryAPI.model.Book;
 import ma.glasnost.orika.MapperFactory;
@@ -20,6 +21,11 @@ public class Mapper extends ConfigurableMapper {
         factory.classMap(Book.class, BookDto.class)
                 .field("author.id", "authorId")
                 .field("member.id", "memberId").byDefault()
+                .register();
+
+        factory.classMap(Book.class, BookReaderDto.class)
+                .field("member.email", "memberEmail")
+                .field("member.name", "memberName").byDefault()
                 .register();
     }
 

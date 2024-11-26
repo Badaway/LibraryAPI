@@ -1,5 +1,6 @@
 package com.example.LibraryAPI.model;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -18,8 +19,8 @@ import java.util.*;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class User implements UserDetails {
+@ToString
+public class User implements UserDetails   {
 
     
     @Id
@@ -114,4 +115,6 @@ public class User implements UserDetails {
                 ", updatedAt=" + updatedAt +
                 '}';
     }
+
+
 }

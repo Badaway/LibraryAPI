@@ -1,13 +1,17 @@
 package com.example.LibraryAPI.model;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -16,7 +20,8 @@ import java.util.UUID;
 @Accessors(chain = true)
 @Entity
 @Table(name = "members")
-public class Member {
+@ToString
+public class Member{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,6 +37,11 @@ public class Member {
     @UpdateTimestamp
     @Column(name = "membership_date")
     private Date membershipDate;
+
+
+
+
+
 
 
 }

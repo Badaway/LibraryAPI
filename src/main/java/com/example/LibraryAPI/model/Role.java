@@ -1,10 +1,13 @@
 package com.example.LibraryAPI.model;
 
+
+
 import com.example.LibraryAPI.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 
@@ -14,6 +17,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Entity
 @Table(name = "roles")
+
+@ToString
 public class Role {
 
     @Id
@@ -24,6 +29,7 @@ public class Role {
 
     @Column(name = "name")
     private RoleEnum name;
+
 
 
 }

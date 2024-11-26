@@ -1,8 +1,10 @@
 package com.example.LibraryAPI.model;
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Accessors(chain = true)
+@ToString
 @Entity
 @Table(name = "book")
 public class Book {
@@ -41,5 +44,7 @@ public class Book {
 
     @Column(name = "borrow_date")
     private Date borrowDate;
+
+
 
 }

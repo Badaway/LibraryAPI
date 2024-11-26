@@ -6,6 +6,7 @@ import com.example.LibraryAPI.Dto.UserResponseDto;
 import com.example.LibraryAPI.enums.RoleEnum;
 import com.example.LibraryAPI.exceptions.ExceptionMessage;
 import com.example.LibraryAPI.mapping.Mapper;
+import com.example.LibraryAPI.model.AuditLog;
 import com.example.LibraryAPI.model.Role;
 import com.example.LibraryAPI.model.User;
 import com.example.LibraryAPI.repository.RoleRepository;
@@ -40,6 +41,9 @@ public class AuthenticationService {
     @Autowired
     private Mapper mapper;
 
+    @Autowired
+    private AuditService auditService;
+
 
 
     public User signup(RegisterUserDto input,RoleEnum role) {
@@ -59,7 +63,17 @@ public class AuthenticationService {
                 .setPassword(passwordEncoder.encode(input.getPassword()))
                 .setRoles(roleSet);
 
-        return userRepository.save(user);
+
+        var userToCreate= userRepository.save(user);
+
+        var log= new AuditLog()
+                .setAction("Create")
+                .setEntityId(userToCreate.getId().toString())
+                .setEntity(userToCreate.getClass().getSimpleName())
+                .setNewValue(userToCreate.toString());
+        auditService.createLog(log);
+
+        return userToCreate;
 
 //        return mapper.map(user, UserResponseDto.class);
     }

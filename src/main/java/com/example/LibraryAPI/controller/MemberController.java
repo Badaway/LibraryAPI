@@ -1,10 +1,8 @@
 package com.example.LibraryAPI.controller;
 
-import com.example.LibraryAPI.Dto.BookResponseDto;
-import com.example.LibraryAPI.Dto.MemberDto;
-import com.example.LibraryAPI.Dto.MemberResponseDto;
-import com.example.LibraryAPI.Dto.UpdateMemberDto;
+import com.example.LibraryAPI.Dto.*;
 import com.example.LibraryAPI.mapping.Mapper;
+import com.example.LibraryAPI.model.Book;
 import com.example.LibraryAPI.model.Member;
 import com.example.LibraryAPI.service.BookService;
 import com.example.LibraryAPI.service.MemberService;
@@ -15,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,8 +32,9 @@ public class MemberController {
     public static final String createMemberUri = "/";
     public static final String deleteMemberUri = "/{memberId}";
     public static final String borrowBookUri = "/{memberId}/borrow/{bookId}";
-    public static final String checkOutBookUri = "/{memberId}/checkOut/{bookId}";
+    public static final String checkOutBookUri = "/{memberId}/checkout/{bookId}";
     public static final String getMemberByEmailUri = "/{email}";
+    private static final String getMembersWithBooksBorrowedFromToUri = "/borrowedbooks";
 
 
     @Autowired
@@ -141,6 +141,16 @@ public class MemberController {
         var memberResponse=mapper.map(member,MemberResponseDto.class);
 
         return new ResponseEntity<>(memberResponse, HttpStatus.OK);
+
+    }
+
+    @GetMapping (getMembersWithBooksBorrowedFromToUri)
+    @PreAuthorize("hasAnyRole(T(com.example.LibraryAPI.enums.RoleEnum).ROLE_ADMIN.toString(),T(com.example.LibraryAPI.enums.RoleEnum).ROLE_USER.toString())")
+    public ResponseEntity<List<MemberBorrowedBook>> getMembersWithBooksBorrowedFromTo(@RequestParam(required = true) String from, @RequestParam(required = true) String to) throws ParseException {
+
+        var memberBorrowedBooks=memberService.getAllMemberBorrowedBooks(from,to);
+
+        return new ResponseEntity<>(memberBorrowedBooks, HttpStatus.OK);
 
     }
 }

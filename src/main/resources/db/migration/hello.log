@@ -1,0 +1,70 @@
+2024-11-20T18:00:52.958+02:00 DEBUG 56015 --- [           main] o.s.b.c.c.s.JobRegistryBeanPostProcessor : Registering job: bookJob
+2024-11-20T18:00:53.067+02:00  INFO 56015 --- [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-11-20T18:00:53.069+02:00  WARN 56015 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-11-20T18:00:54.226+02:00  WARN 56015 --- [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-11-20T18:00:55.160+02:00  INFO 56015 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 3005 (http) with context path '/api'
+2024-11-20T18:00:55.168+02:00  INFO 56015 --- [           main] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [172.17.0.1:5672]
+2024-11-20T18:00:55.266+02:00  INFO 56015 --- [           main] o.s.a.r.c.CachingConnectionFactory       : Created new connection: rabbitConnectionFactory#609a996f:0/SimpleConnection@113886b1 [delegate=amqp://guest@172.17.0.1:5672/, localPort=53008]
+2024-11-20T18:00:55.323+02:00  INFO 56015 --- [           main] c.e.LibraryAPI.LibraryApiApplication     : Started LibraryApiApplication in 16.234 seconds (process running for 17.323)
+2024-11-20T18:01:00.139+02:00  INFO 56015 --- [   scheduling-1] o.s.b.c.l.support.SimpleJobLauncher      : Job: [FlowJob: [name=bookJob]] launched with the following parameters: [{}]
+2024-11-20T18:01:00.155+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.job.AbstractJob           : Job execution starting: JobExecution: id=85, version=0, startTime=null, endTime=null, lastUpdated=2024-11-20T18:01:00.128663907, status=STARTING, exitStatus=exitCode=UNKNOWN;exitDescription=, job=[JobInstance: id=1, version=0, Job=[bookJob]], jobParameters=[{}]
+2024-11-20T18:01:00.173+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Resuming state=bookJob.step0 with status=UNKNOWN
+2024-11-20T18:01:00.173+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Handling state=bookJob.step0
+2024-11-20T18:01:00.216+02:00  INFO 56015 --- [   scheduling-1] o.s.batch.core.job.SimpleStepHandler     : Executing step: [bookStep]
+2024-11-20T18:01:00.217+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.AbstractStep         : Executing: id=85
+2024-11-20T18:01:00.230+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Starting repeat context.
+2024-11-20T18:01:00.231+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat operation about to start at count=1
+2024-11-20T18:01:00.232+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.s.c.StepContextRepeatCallback    : Preparing chunk execution for StepContext: org.springframework.batch.core.scope.context.StepContext@3ed1cb05
+2024-11-20T18:01:00.232+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.s.c.StepContextRepeatCallback    : Chunk execution starting: queue size=0
+2024-11-20T18:01:00.236+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Starting repeat context.
+2024-11-20T18:01:00.236+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat operation about to start at count=1
+2024-11-20T18:01:00.240+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat is complete according to policy and result value.
+sending : ywh6nUvDZC
+2024-11-20T18:01:00.289+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.step.item.ChunkOrientedTasklet   : Inputs not busy, ended: false
+2024-11-20T18:01:00.299+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.tasklet.TaskletStep  : Applying contribution: [StepContribution: read=1, written=1, filtered=0, readSkips=0, writeSkips=0, processSkips=0, exitStatus=EXECUTING]
+2024-11-20T18:01:00.301+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.tasklet.TaskletStep  : Saving step execution before commit: StepExecution: id=85, version=1, name=bookStep, status=STARTED, exitStatus=EXECUTING, readCount=1, filterCount=0, writeCount=1 readSkipCount=0, writeSkipCount=0, processSkipCount=0, commitCount=1, rollbackCount=0, exitDescription=
+2024-11-20T18:01:00.307+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat operation about to start at count=2
+2024-11-20T18:01:00.307+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.s.c.StepContextRepeatCallback    : Preparing chunk execution for StepContext: org.springframework.batch.core.scope.context.StepContext@3ed1cb05
+2024-11-20T18:01:00.307+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.s.c.StepContextRepeatCallback    : Chunk execution starting: queue size=0
+2024-11-20T18:01:00.308+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Starting repeat context.
+2024-11-20T18:01:00.308+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat operation about to start at count=1
+2024-11-20T18:01:00.308+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat is complete according to policy and result value.
+2024-11-20T18:01:00.309+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.step.item.ChunkOrientedTasklet   : Inputs not busy, ended: true
+2024-11-20T18:01:00.309+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.tasklet.TaskletStep  : Applying contribution: [StepContribution: read=0, written=0, filtered=0, readSkips=0, writeSkips=0, processSkips=0, exitStatus=EXECUTING]
+2024-11-20T18:01:00.313+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.tasklet.TaskletStep  : Saving step execution before commit: StepExecution: id=85, version=2, name=bookStep, status=STARTED, exitStatus=EXECUTING, readCount=1, filterCount=0, writeCount=1 readSkipCount=0, writeSkipCount=0, processSkipCount=0, commitCount=2, rollbackCount=0, exitDescription=
+2024-11-20T18:01:00.318+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat is complete according to policy and result value.
+2024-11-20T18:01:00.318+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.AbstractStep         : Step execution success: id=85
+2024-11-20T18:01:00.324+02:00  INFO 56015 --- [   scheduling-1] o.s.batch.core.step.AbstractStep         : Step: [bookStep] executed in 106ms
+2024-11-20T18:01:00.333+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.AbstractStep         : Step execution complete: StepExecution: id=85, version=4, name=bookStep, status=COMPLETED, exitStatus=COMPLETED, readCount=1, filterCount=0, writeCount=1 readSkipCount=0, writeSkipCount=0, processSkipCount=0, commitCount=2, rollbackCount=0
+2024-11-20T18:01:00.337+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Completed state=bookJob.step0 with status=COMPLETED
+2024-11-20T18:01:00.338+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Handling state=bookJob.COMPLETED
+2024-11-20T18:01:00.338+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Completed state=bookJob.COMPLETED with status=COMPLETED
+2024-11-20T18:01:00.339+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.job.AbstractJob           : Job execution complete: JobExecution: id=85, version=1, startTime=2024-11-20T18:01:00.164553037, endTime=null, lastUpdated=2024-11-20T18:01:00.164986490, status=COMPLETED, exitStatus=exitCode=COMPLETED;exitDescription=, job=[JobInstance: id=1, version=0, Job=[bookJob]], jobParameters=[{}]
+2024-11-20T18:01:00.350+02:00  INFO 56015 --- [   scheduling-1] o.s.b.c.l.support.SimpleJobLauncher      : Job: [FlowJob: [name=bookJob]] completed with the following parameters: [{}] and the following status: [COMPLETED] in 176ms
+Scheduled Batch Job Executed
+2024-11-20T18:01:10.073+02:00  INFO 56015 --- [   scheduling-1] o.s.b.c.l.support.SimpleJobLauncher      : Job: [FlowJob: [name=bookJob]] launched with the following parameters: [{}]
+2024-11-20T18:01:10.073+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.job.AbstractJob           : Job execution starting: JobExecution: id=86, version=0, startTime=null, endTime=null, lastUpdated=2024-11-20T18:01:10.068513743, status=STARTING, exitStatus=exitCode=UNKNOWN;exitDescription=, job=[JobInstance: id=1, version=0, Job=[bookJob]], jobParameters=[{}]
+2024-11-20T18:01:10.078+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Resuming state=bookJob.step0 with status=UNKNOWN
+2024-11-20T18:01:10.079+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Handling state=bookJob.step0
+2024-11-20T18:01:10.111+02:00  INFO 56015 --- [   scheduling-1] o.s.batch.core.job.SimpleStepHandler     : Executing step: [bookStep]
+2024-11-20T18:01:10.111+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.AbstractStep         : Executing: id=86
+2024-11-20T18:01:10.118+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Starting repeat context.
+2024-11-20T18:01:10.118+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat operation about to start at count=1
+2024-11-20T18:01:10.119+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.s.c.StepContextRepeatCallback    : Preparing chunk execution for StepContext: org.springframework.batch.core.scope.context.StepContext@7815c0ec
+2024-11-20T18:01:10.119+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.s.c.StepContextRepeatCallback    : Chunk execution starting: queue size=0
+2024-11-20T18:01:10.120+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Starting repeat context.
+2024-11-20T18:01:10.120+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat operation about to start at count=1
+2024-11-20T18:01:10.120+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat is complete according to policy and result value.
+2024-11-20T18:01:10.120+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.c.step.item.ChunkOrientedTasklet   : Inputs not busy, ended: true
+2024-11-20T18:01:10.121+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.tasklet.TaskletStep  : Applying contribution: [StepContribution: read=0, written=0, filtered=0, readSkips=0, writeSkips=0, processSkips=0, exitStatus=EXECUTING]
+2024-11-20T18:01:10.123+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.tasklet.TaskletStep  : Saving step execution before commit: StepExecution: id=86, version=1, name=bookStep, status=STARTED, exitStatus=EXECUTING, readCount=0, filterCount=0, writeCount=0 readSkipCount=0, writeSkipCount=0, processSkipCount=0, commitCount=1, rollbackCount=0, exitDescription=
+2024-11-20T18:01:10.127+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.repeat.support.RepeatTemplate  : Repeat is complete according to policy and result value.
+2024-11-20T18:01:10.127+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.AbstractStep         : Step execution success: id=86
+2024-11-20T18:01:10.130+02:00  INFO 56015 --- [   scheduling-1] o.s.batch.core.step.AbstractStep         : Step: [bookStep] executed in 18ms
+2024-11-20T18:01:10.133+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.step.AbstractStep         : Step execution complete: StepExecution: id=86, version=3, name=bookStep, status=COMPLETED, exitStatus=COMPLETED, readCount=0, filterCount=0, writeCount=0 readSkipCount=0, writeSkipCount=0, processSkipCount=0, commitCount=1, rollbackCount=0
+2024-11-20T18:01:10.136+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Completed state=bookJob.step0 with status=COMPLETED
+2024-11-20T18:01:10.136+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Handling state=bookJob.COMPLETED
+2024-11-20T18:01:10.136+02:00 DEBUG 56015 --- [   scheduling-1] o.s.b.core.job.flow.support.SimpleFlow   : Completed state=bookJob.COMPLETED with status=COMPLETED
+2024-11-20T18:01:10.136+02:00 DEBUG 56015 --- [   scheduling-1] o.s.batch.core.job.AbstractJob           : Job execution complete: JobExecution: id=86, version=1, startTime=2024-11-20T18:01:10.073968026, endTime=null, lastUpdated=2024-11-20T18:01:10.074424082, status=COMPLETED, exitStatus=exitCode=COMPLETED;exitDescription=, job=[JobInstance: id=1, version=0, Job=[bookJob]], jobParameters=[{}]
+2024-11-20T18:01:10.141+02:00  INFO 56015 --- [   scheduling-1] o.s.b.c.l.support.SimpleJobLauncher      : Job: [FlowJob: [name=bookJob]] completed with the following parameters: [{}] and the following status: [COMPLETED] in 63ms
+Scheduled Batch Job Executed
